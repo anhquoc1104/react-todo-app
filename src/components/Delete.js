@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 
 class Delete extends Component {
-  constructor(props) {
-    super(props);
 
+  deleteTask = () => {
+    this.props.deleteTask(this.props.index);
   };
 
   render() {
     return (
-      <button className="btn btn-danger">delete</button>
+      <button 
+        className="btn btn-danger"
+        onClick={this.deleteTask}
+      >
+      delete
+      </button>
     );
   };
 };
