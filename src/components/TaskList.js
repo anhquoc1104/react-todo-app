@@ -85,7 +85,7 @@ class TaskList extends Component {
           })
         } else {
           tasksSort.sort((a, b) => {
-            return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 0;
+            return b.name.toLowerCase() > a.name.toLowerCase() ? 1 : b.name.toLowerCase() < a.name.toLowerCase() ? -1 : 0;
           })
         }
         break;
