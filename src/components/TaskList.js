@@ -33,8 +33,9 @@ class TaskList extends Component {
     };
   };
 
-  changeStatus = (index, status) => {
+  changeStatus = (id, status) => {
     let { tasks, updateStatus } = this.props;
+    let index = tasks.findIndex( elm => elm.id === id);
     if (status === true) {
       tasks[index].status = false;
     } else {
@@ -121,7 +122,7 @@ class TaskList extends Component {
         <td>
           <button
             className={elm.status === true ? 'btn btn-success' : 'btn btn-danger'}
-            onClick={() => { this.changeStatus(index, elm.status) }}
+            onClick={() => { this.changeStatus(elm.id, elm.status) }}
           >
             {elm.status === true ? 'Pending' : 'Done'}
           </button>
