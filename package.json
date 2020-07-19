@@ -2,6 +2,10 @@
   "name": "react-todo-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.14.5"
+    },
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.1.11",
     "@testing-library/jest-dom": "^4.2.4",
