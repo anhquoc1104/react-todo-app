@@ -99,6 +99,7 @@ class Update extends Component {
                     className="form-control"
                     id="recipient-name"
                     name="name"
+                    autoFocus
                     value={name}
                     onChange={this.onChange} />
                 </div>

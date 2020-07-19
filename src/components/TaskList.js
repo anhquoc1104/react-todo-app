@@ -17,6 +17,25 @@ class TaskList extends Component {
     };
   };
 
+  change_alias(alias) {
+    let str = alias;
+    str = str.toLowerCase();
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/đ/g, "d");
+    str = str.replace(
+      /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
+      " "
+    );
+    str = str.replace(/ + /g, " ");
+    str = str.trim();
+    return str;
+  };
+
   componentDidMount() {
     this.setState({
       sort: {
@@ -82,22 +101,22 @@ class TaskList extends Component {
       case 'do':
         if (sortBy) {
           tasksSort.sort((a, b) => {
-            return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 0;
+            return this.change_alias(a.name) > this.change_alias(b.name) ? 1 : this.change_alias(a.name) < this.change_alias(b.name) ? -1 : 0;
           })
         } else {
           tasksSort.sort((a, b) => {
-            return b.name.toLowerCase() > a.name.toLowerCase() ? 1 : b.name.toLowerCase() < a.name.toLowerCase() ? -1 : 0;
+            return this.change_alias(b.name) > this.change_alias(a.name) ? 1 : this.change_alias(b.name) < this.change_alias(a.name) ? -1 : 0;
           })
         }
         break;
       case 'status':
         if (sortBy) {
           tasksSort.sort((a, b) => {
-            return a.status.toString() > b.status.toString() ? 1 : a.status.toString() < b.status.toString() ? -1 : 0;
+            return this.change_alias(a.status.toString()) > this.change_alias(b.status.toString()) ? 1 : this.change_alias(a.status.toString()) < this.change_alias(b.status.toString()) ? -1 : 0;
           })
         } else {
           tasksSort.sort((a, b) => {
-            return b.status.toString() > a.status.toString() ? 1 : b.status.toString() < a.status.toString() ? -1 : 0;
+            return this.change_alias(b.status.toString()) > this.change_alias(a.status.toString()) ? 1 : this.change_alias(b.status.toString()) < this.change_alias(a.status.toString()) ? -1 : 0;
           })
         }
         break;

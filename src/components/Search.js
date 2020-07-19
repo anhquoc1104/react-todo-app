@@ -12,7 +12,8 @@ class Search extends Component{
       <input 
         className="form-control rounded-pill" 
         type="text" 
-        placeholder="Search in here..." 
+        placeholder="Search in here..."
+        autoFocus
         onChange={this.onChange}  
       />
     )
