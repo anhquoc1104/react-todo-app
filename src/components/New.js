@@ -9,6 +9,7 @@ class New extends Component {
         className="btn btn-primary" 
         data-toggle="modal" 
         data-target="#todoModal"
+        onClick={this.props.resetState}
       >
         New Item
       </button>
