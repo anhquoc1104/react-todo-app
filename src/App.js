@@ -72,9 +72,10 @@ class App extends Component {
   };
 
   //Delete Todo
-  deleteTask = (index) => {
+  deleteTask = (id) => {
     // console.log(index);
     let tasks = this.state.tasks;
+    let index = tasks.findIndex(elm => elm.id === id);
     tasks = tasks.slice(0, index).concat(tasks.slice(index + 1));
     this.setState({
       tasks: tasks

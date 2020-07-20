@@ -124,7 +124,7 @@ class TaskList extends Component {
             id={elm.id}
             editTodo={editTodo} />
           <Delete
-            index={index}
+            index={elm.id}
             deleteTask={deleteTask} />
         </td>
       </tr>)
