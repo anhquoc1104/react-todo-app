@@ -1,45 +1,27 @@
 import React, { Component } from 'react';
-import Delete from './Delete';
-import Edit from './Edit';
-import noItemImg from '../img/background-noItem.png';
+import Delete from './TaskDelete';
+import Edit from './TaskEdit';
 import ButtonUp from './ButtonUp';
 import ButtonDown from './ButtonDown';
+import VN from '../change_alias'
 import './TaskList.css';
+import noItemImg from '../img/background-noItem.png';
 
 class TaskList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       sort: {
-        name: '',
+        name: 'n0',
         sortBy: true
       }
     };
   };
 
-  change_alias(alias) {
-    let str = alias;
-    str = str.toLowerCase();
-    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-    str = str.replace(/đ/g, "d");
-    str = str.replace(
-      /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
-      " "
-    );
-    str = str.replace(/ + /g, " ");
-    str = str.trim();
-    return str;
-  };
-
   componentDidMount() {
     this.setState({
       sort: {
-        name: '',
+        name: 'n0',
         sortBy: true
       }
     });
@@ -54,7 +36,7 @@ class TaskList extends Component {
 
   changeStatus = (id, status) => {
     let { tasks, updateStatus } = this.props;
-    let index = tasks.findIndex( elm => elm.id === id);
+    let index = tasks.findIndex(elm => elm.id === id);
     if (status === true) {
       tasks[index].status = false;
     } else {
@@ -70,16 +52,7 @@ class TaskList extends Component {
     // console.log(nameClick);
     let { name, sortBy } = this.state.sort;
     sortBy = sortBy === true ? false : true;
-    let temp = name;
-    name = nameClick
-    if (temp === '') {
-      this.setState({
-        sort: {
-          name: nameClick,
-          sortBy: sortBy
-        }
-      });
-    } else if (temp === nameClick) {
+    if (name === nameClick) {
       this.setState({
         sort: {
           name: nameClick,
@@ -96,27 +69,27 @@ class TaskList extends Component {
     }
   };
 
-  onSort(tasksSort, name, sortBy) {
+  onSort(tasksSort, name = "n0", sortBy) {
     switch (name) {
       case 'do':
         if (sortBy) {
           tasksSort.sort((a, b) => {
-            return this.change_alias(a.name) > this.change_alias(b.name) ? 1 : this.change_alias(a.name) < this.change_alias(b.name) ? -1 : 0;
+            return VN.change_alias(a.name) > VN.change_alias(b.name) ? 1 : VN.change_alias(a.name) < VN.change_alias(b.name) ? -1 : 0;
           })
         } else {
           tasksSort.sort((a, b) => {
-            return this.change_alias(b.name) > this.change_alias(a.name) ? 1 : this.change_alias(b.name) < this.change_alias(a.name) ? -1 : 0;
+            return VN.change_alias(b.name) > VN.change_alias(a.name) ? 1 : VN.change_alias(b.name) < VN.change_alias(a.name) ? -1 : 0;
           })
         }
         break;
       case 'status':
         if (sortBy) {
           tasksSort.sort((a, b) => {
-            return this.change_alias(a.status.toString()) > this.change_alias(b.status.toString()) ? 1 : this.change_alias(a.status.toString()) < this.change_alias(b.status.toString()) ? -1 : 0;
+            return VN.change_alias(a.status.toString()) > VN.change_alias(b.status.toString()) ? 1 : VN.change_alias(a.status.toString()) < VN.change_alias(b.status.toString()) ? -1 : 0;
           })
         } else {
           tasksSort.sort((a, b) => {
-            return this.change_alias(b.status.toString()) > this.change_alias(a.status.toString()) ? 1 : this.change_alias(b.status.toString()) < this.change_alias(a.status.toString()) ? -1 : 0;
+            return VN.change_alias(b.status.toString()) > VN.change_alias(a.status.toString()) ? 1 : VN.change_alias(b.status.toString()) < VN.change_alias(a.status.toString()) ? -1 : 0;
           })
         }
         break;
@@ -136,14 +109,14 @@ class TaskList extends Component {
   renderItem(tasksSort, editTodo, deleteTask) {
     return tasksSort.map((elm, index) => {
       return (<tr key={elm.id}>
-        <th scope="row" style={elm.status === true ? {} : this.styleDone()}>{index + 1}</th>
+        <td scope="row" style={elm.status === true ? {} : this.styleDone()}>{index + 1}</td>
         <td style={elm.status === true ? {} : this.styleDone()}>{elm.name}</td>
         <td>
           <button
             className={elm.status === true ? 'btn btn-success' : 'btn btn-danger'}
             onClick={() => { this.changeStatus(elm.id, elm.status) }}
           >
-            {elm.status === true ? 'Pending' : 'Done'}
+            {elm.status === true ? 'Do...' : 'Done'}
           </button>
         </td>
         <td>
@@ -177,21 +150,21 @@ class TaskList extends Component {
           <thead>
             <tr>
               <th onClick={() => { this.sort('n0') }} scope="col">
-                <span>#</span>
+                <span className="d-inline">#</span>
                 <div className="ml-2 d-inline">
-                  {(name === '' || name === 'n0' && sortBy === true) ? <ButtonUp /> : (name === 'n0' && sortBy === false) ? <ButtonDown /> : '' }
+                  {(name === '' || name === 'n0' && sortBy === true) ? <ButtonUp /> : (name === 'n0' && sortBy === false) ? <ButtonDown /> : ''}
                 </div>
               </th>
               <th onClick={() => { this.sort('do') }} scope="col">
                 <span>Do it</span>
                 <div className="ml-2 d-inline">
-                {(name === 'do' && sortBy === true) ? <ButtonUp /> : (name === 'do' && sortBy === false) ? <ButtonDown /> : '' }
+                  {(name === 'do' && sortBy === true) ? <ButtonUp /> : (name === 'do' && sortBy === false) ? <ButtonDown /> : ''}
                 </div>
               </th>
               <th onClick={() => { this.sort('status') }} scope="col">
                 <span>Status</span>
                 <div className="ml-2 d-inline">
-                {(name === 'status' && sortBy === true) ? <ButtonUp /> : (name === 'status' && sortBy === false) ? <ButtonDown /> : '' }
+                  {(name === 'status' && sortBy === true) ? <ButtonUp /> : (name === 'status' && sortBy === false) ? <ButtonDown /> : ''}
                 </div>
               </th>
               <th scope="col" />

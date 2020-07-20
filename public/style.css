@@ -1,0 +1,7 @@
+
+/* Mobile */
+@media (max-width: 380px) {
+  *{
+    font-size: 0.9rem !important;
+  }
+}

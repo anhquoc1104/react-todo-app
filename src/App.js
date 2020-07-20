@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import Update from './components/Update';
-import Search from './components/Search';
-import New from './components/New';
+import Update from './components/TaskUpdate';
+import Search from './components/TaskSearch';
+import New from './components/TaskNew';
 import TaskList from './components/TaskList';
+import VN from './change_alias';
 
 class App extends Component {
   constructor(props) {
@@ -16,25 +17,6 @@ class App extends Component {
         sortBy: true
       }
     };
-  };
-
-  change_alias(alias) {
-    let str = alias;
-    str = str.toLowerCase();
-    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-    str = str.replace(/đ/g, "d");
-    str = str.replace(
-      /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
-      " "
-    );
-    str = str.replace(/ + /g, " ");
-    str = str.trim();
-    return str;
   };
 
   componentDidMount() {
@@ -98,27 +80,8 @@ class App extends Component {
       tasks: tasks
     });
     localStorage.setItem('tasks', JSON.stringify(tasks));
-  }
+  };
 
-  // generateTasks = () => {
-  //   let tasks = [
-  //     {
-  //       id: this.generateId(),
-  //       name: 'Do it 1',
-  //       status: true
-  //     },
-  //     {
-  //       id: this.generateId(),
-  //       name: 'Do it 2',
-  //       status: false
-  //     }
-  //   ];
-  //   this.setState({
-  //     tasks: tasks
-  //   });
-  //   localStorage.setItem('tasks', JSON.stringify(tasks));
-  //   // console.log('A');
-  // };
 
   //GET id TODO
   editTodo = (id) => {
@@ -145,7 +108,7 @@ class App extends Component {
       });
     } else {
       for (let task of tasks) {
-        if (this.change_alias(task.name).indexOf(this.change_alias(value)) !== -1) {
+        if (VN.change_alias(task.name).indexOf(VN.change_alias(value)) !== -1) {
           tasksSearch.push(task);
         }
       }
@@ -172,7 +135,7 @@ class App extends Component {
               <Search changeToSearch={this.changeToSearch} />
               {/* <button onClick={this.generateTasks} type="button" className="btn btn-primary">Generate</button> */}
             </div>
-            <div className="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div className="col col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
               <New resetState={this.resetState} />
             </div>
           </div>
