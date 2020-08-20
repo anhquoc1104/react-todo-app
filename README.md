@@ -5,10 +5,10 @@ Deploy Heroku : https://todo-firstapp-reactjs.herokuapp.com/
 In the project, you can:
 
 #### CRUD TODO :
-  ##### SHOW ALL TODO
-  ##### ADD NEW TODO
-  ##### EDIT TODO
-  ##### DELETE TODO
+##### SHOW ALL TODO
+##### ADD NEW TODO
+##### EDIT TODO
+##### DELETE TODO
   
 #### MARK TODO COMPLETE
 
