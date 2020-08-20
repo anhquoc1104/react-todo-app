@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../actions/index.action';
 
 class Edit extends Component {
 
-  sendId = () => {
-    let { editTodo, id } = this.props;
-    return editTodo(id);
-  };
-
   render() {
+    let {sendId, elm} = this.props;
+    // console.log(elm);
     return (
       <button
         type="button"
         className="btn btn-warning mr-2"
         data-toggle="modal"
         data-target="#todoModal"
-        onClick={this.sendId}
+        onClick={() => {sendId(elm)}}
       >
         edit
       </button>
@@ -22,4 +21,18 @@ class Edit extends Component {
   };
 };
 
-export default Edit;
+let mapStateToProps = (state) => {
+  return {
+
+  }
+};
+
+let mapDispatchToProps = (dispatch, props) => {
+  return {
+    sendId: payload => {
+      dispatch(actions.editList(payload));
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Edit);

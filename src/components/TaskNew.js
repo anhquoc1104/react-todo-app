@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../actions/index.action';
 
-class New extends Component {
+class TaskNew extends Component {
 
   render() {
     return (
@@ -17,4 +19,18 @@ class New extends Component {
   };
 };
 
-export default New;
+let mapStateToProps = (state) => {
+  return {
+
+  }
+};
+
+let mapDispatchToProps = (dispatch, props) => {
+  return {
+    resetState: () => {
+      dispatch(actions.newTodo());
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskNew);

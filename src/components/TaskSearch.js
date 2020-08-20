@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../actions/index.action';
 
 class Search extends Component{
 
@@ -17,8 +19,21 @@ class Search extends Component{
         onChange={this.onChange}  
       />
     )
-
   };
 };
 
-export default Search;
+let mapStateToProps = (state) => {
+  return {
+
+  }
+};
+
+let mapDispatchToProps = (dispatch, props) => {
+  return {
+    changeToSearch: (payload) => {
+      dispatch(actions.searchList(payload));
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

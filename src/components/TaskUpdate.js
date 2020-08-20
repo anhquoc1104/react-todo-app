@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions/index.action';
 
 class Update extends Component {
   constructor(props) {
@@ -6,47 +8,34 @@ class Update extends Component {
     this.state = {
       id: null,
       name: '',
-      status: true,
-      editFlag: true
+      status: true
     };
   };
-
-  // componentDidMount() {
-  //   // console.log(this.props.editTask);
-  //   if (this.props.editTask) {
-  //     let { id, name, status } = this.props.editTask;
-  //     this.setState({
-  //       id: id,
-  //       name: name,
-  //       status: status
-  //     });
-  //   }
-  // };
 
   onSubmit = (e) => {
     e.preventDefault();
     if (this.state.name.trim() !== '')
       this.props.updateState(this.state);
-    this.setState({
-      id: null,
-      name: '',
-      status: true,
-      editFlag: true
-    });
+    //reset state
+    this.onReset();
   };
 
   onChange = (event) => {
+    let { taskEdit } = this.props;
+    let { id, status } = this.state;
     let target = event.target;
-    let name = target.name;
     let value = target.value;
     this.setState({
-      id: this.props.editTask ? this.props.editTask.id : null,
+      id: (taskEdit.length !== 0) ? taskEdit.id : null,
       name: value,
-      status: this.props.editTask && this.state.editFlag ? this.props.editTask.status : this.state.status
+      status: (taskEdit.length !== 0) ? (taskEdit.id === id ? status : taskEdit.status) : true
     });
   };
 
   onChangeStatus = (event) => {
+    let { taskEdit } = this.props;
+    let nameState = this.state.name;
+    let idState = this.state.id;
     let target = event.target;
     let name = target.name;
     let value = target.value;
@@ -54,10 +43,9 @@ class Update extends Component {
       value = target.value === 'true' ? true : false;
     }
     this.setState({
-      id: this.props.editTask ? this.props.editTask.id : null,
-      name: this.props.editTask && this.state.name === '' ? this.props.editTask.name : this.state.name,
-      status: value,
-      editFlag: false
+      id: (taskEdit.length !== 0) ? taskEdit.id : null,
+      name: (taskEdit.length !== 0) ? (taskEdit.id === idState ? nameState : taskEdit.name) : '',
+      status: value
     });
   };
 
@@ -65,14 +53,15 @@ class Update extends Component {
     this.setState({
       id: null,
       name: '',
-      status: true,
-      editFlag: true
+      status: true
     });
   };
 
   render() {
-    let name = this.props.editTask && this.state.name === '' ? this.props.editTask.name : this.state.name;
-    let status = this.props.editTask && this.state.editFlag ? this.props.editTask.status : this.state.status;
+    let { taskEdit } = this.props;
+    let { id, name, status } = this.state;
+    let nameTask = (taskEdit.length !== 0) ? (taskEdit.id === id ? name : taskEdit.name) : name;
+    let statusTask = (taskEdit.length !== 0) ? (taskEdit.id === id ? status : taskEdit.status) : status;
     return (
       <div
         className="modal fade"
@@ -100,7 +89,7 @@ class Update extends Component {
                     id="recipient-name"
                     name="name"
                     autoFocus
-                    value={name}
+                    value={nameTask || ''}
                     onChange={this.onChange} />
                 </div>
                 <div className="form-group">
@@ -108,7 +97,7 @@ class Update extends Component {
                   <select
                     className="form-control mdb-select md-form"
                     name="status"
-                    value={status}
+                    value={statusTask}
                     onChange={this.onChangeStatus}
                   >
                     <option value={true}>Pending</option>
@@ -139,4 +128,18 @@ class Update extends Component {
   };
 };
 
-export default Update;
+let mapStateToProps = (state) => {
+  return {
+    taskEdit: state.updateList.data
+  }
+};
+
+let mapDispatchToProps = (dispatch, props) => {
+  return {
+    updateState: payload => {
+      dispatch(actions.addList(payload));
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Update);

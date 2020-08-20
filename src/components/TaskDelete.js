@@ -1,21 +1,36 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../actions/index.action';
 
 class Delete extends Component {
 
-  deleteTask = () => {
-    this.props.deleteTask(this.props.index);
-  };
+  // deleteTask = () => {
+  //   this.props.deleteTask(this.props.index);
+  // };
 
   render() {
+    let { deleteTask, id } = this.props;
     return (
-      <button 
+      <button
         className="btn btn-danger"
-        onClick={this.deleteTask}
+        onClick={() => { deleteTask(id) }}
       >
-      delete
+        delete
       </button>
     );
   };
 };
 
-export default Delete;
+let mapStateToProps = (state) => {
+  return {}
+};
+
+let mapDispatchToProps = (dispatch, props) => {
+  return {
+    deleteTask: (payload) => {
+      return dispatch(actions.deleteList(payload))
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Delete);
