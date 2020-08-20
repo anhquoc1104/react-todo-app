@@ -1,7 +1,7 @@
 This project TODO React + Redux
 
 ### Available Scripts
-
+Deploy Heroku : https://todo-firstapp-reactjs.herokuapp.com/
 In the project, you can:
 
 #### CRUD TODO :
